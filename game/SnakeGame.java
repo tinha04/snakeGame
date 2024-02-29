@@ -28,6 +28,7 @@ public class SnakeGame extends Game{
 	
 	snake = new Snake(arr1, pos1, 0, getGraphics(), this);
 	this.addKeyListener(snake);
+	
   }
   
 	public void paint(Graphics brush) {
@@ -44,7 +45,7 @@ public class SnakeGame extends Game{
     	brush.setColor(Color.green);
     	snake.paint(brush);
   }
-  
+	
 	public static void main (String[] args) {
 		SnakeGame a = new SnakeGame();
 		a.repaint();
