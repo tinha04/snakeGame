@@ -4,9 +4,11 @@ import java.awt.*;
 //import game.Point;
 public class Border extends Polygon{
 //	private Graphics brush;
+//	private Point[] inShape;
 	public Border(Point[] inShape, Point inPosition, double inRotation) {
 		super(inShape, inPosition, inRotation);
 //		this.brush = brush;
+		
 	}
 	public void paint(Graphics brush) {
 		Point[] array = this.getPoints();

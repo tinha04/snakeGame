@@ -15,6 +15,7 @@ public class Snake extends Polygon implements KeyListener{
 	private boolean isOver = false;
 	private Point pos;
 	int speed = 10;
+	Color color = Color.green;
 	
 	public Snake(Point[] inShape, Point inPosition, double inRotation, Graphics brush
 			,SnakeGame game) {
@@ -70,7 +71,7 @@ public class Snake extends Polygon implements KeyListener{
 			arrayY[i] = (int)array[i].getY();
 		}
 		
-		brush.setColor(Color.green);
+		brush.setColor(color);
 		brush.fillPolygon(arrayX, arrayY, array.length);
     }
 	
@@ -149,7 +150,16 @@ public class Snake extends Polygon implements KeyListener{
 		     
 		 } else if (key == KeyEvent.VK_LEFT) {
 		     currentDirection = 2;
-		     
+		 }
+		 else if(key == KeyEvent.VK_SPACE) {
+			 if(color == color.green) {
+				 color = color.red;
+			 }else {
+				 color = color.green;
+			 }
+			 
+			 this.paint(brush);
+//			 game.repaint();
 		 }
 	}
 

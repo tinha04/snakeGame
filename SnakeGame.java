@@ -8,6 +8,7 @@ NOTE: This class is the metaphorical "main method" of your program,
 
 */
 import java.awt.*;
+import java.util.Random;
 
 
 public class SnakeGame extends Game{
@@ -20,6 +21,12 @@ public class SnakeGame extends Game{
 	Border lowerBorder;
 	Border leftBorder;
 	Border rightBorder;
+	
+	Cubes[] listR;
+	Cubes cFromRight;
+	
+	Cubes[] listL;
+	Cubes cFromLeft;
 	
   public SnakeGame() {
     super("Snake",width,height);
@@ -51,9 +58,36 @@ public class SnakeGame extends Game{
 				    new Point(20,20),new Point(0,20)};
 	Point pos1 = new Point(22,20);
 	
+
+	
 	snake = new Snake(arr1, pos1, 0, getGraphics(), this);
 	this.addKeyListener(snake);
 	
+
+	listR = new Cubes[3];
+	for(int i = 0; i < 3; i++) {
+		Point[] arr2 = {new Point(0,0), new Point(20,0),
+				new Point(20,20),new Point(0,20)};
+		int y = (int) (20 + new Random().nextFloat()*510);
+		cFromRight = new Cubes(arr2, 0, y, 0);	
+		listR[i] = cFromRight;
+	}
+	
+	listL = new Cubes[3];
+	for(int i = 0; i < 3; i++) {
+		Point[] arr2 = {new Point(0,0), new Point(20,0),
+				new Point(20,20),new Point(0,20)};
+		int y = (int) (20 + new Random().nextFloat()*510);
+		cFromLeft = new Cubes(arr2, 100, y, 2);	
+		listL[i] = cFromLeft;
+	}
+
+	
+//	Point[] arr2 = {new Point(0,0), new Point(20,0),
+//			new Point(20,20),new Point(0,20)};
+//	int y = (int) (20 + new Random().nextFloat()*510);
+//	cFromLeft = new Cubes(arr2, 0, y, 0);
+//	
   }
   public int getWidth() {
 	  return width;
@@ -69,9 +103,7 @@ public class SnakeGame extends Game{
     	// sample code for printing message for debugging
     	// counter is incremented and this message printed
     	// each time the canvas is repainted
-    	counter++;
-    	brush.setColor(Color.white);
-    	brush.drawString("Counter is " + counter,10,10);
+
     	
     	
     	brush.setColor(Color.green);
@@ -79,7 +111,18 @@ public class SnakeGame extends Game{
     	lowerBorder.paint(brush);
     	leftBorder.paint(brush);
     	rightBorder.paint(brush);
+    	
+    	for(int i = 0; i<listR.length; i++) {
+    		listR[i].paint(brush);
+    	}
+    	for(int i = 0; i<listL.length; i++) {
+    		listL[i].paint(brush);
+    	}
+    		
     	snake.paint(brush);
+    	counter++;
+    	brush.setColor(Color.black);
+    	brush.drawString("Counter is " + counter,10,10);
   }
 	
 	public static void main (String[] args) {
