@@ -5,8 +5,9 @@ import java.awt.event.KeyListener;
 import java.util.Timer;
 import java.util.TimerTask;
 
+//Edward Kelly and Tin Ha
 public class Snake extends Polygon implements KeyListener{
-	private int currentLength;
+//	private int currentLength;
 	private int stepSize = 5;
 	private Graphics brush;
 	private SnakeGame game;
@@ -17,17 +18,20 @@ public class Snake extends Polygon implements KeyListener{
 	int speed = 10;
 	Color color = Color.green;
 	
-	public Snake(Point[] inShape, Point inPosition, double inRotation, Graphics brush
-			,SnakeGame game) {
+	public Snake(Point[] inShape, Point inPosition, double inRotation, Graphics brush, SnakeGame game) {
 		super(inShape, inPosition, inRotation);
 		this.pos = inPosition;
-		currentLength = 0;
+//		currentLength = 0;
 		this.brush = brush;
 		this.game = game;
 		this.inShape = inShape;
 		currentDirection = 0;
 		//0: Right //1: Up //2: Left //3: Down
 		
+		for(Point p: inShape) {
+			p.setX(p.getX()+35);
+			p.setY(p.getY()+35);
+		}
 		//Schedule a task to move the snake every 200 milliseconds
 	    Timer timer = new Timer(true);
 	    timer.scheduleAtFixedRate(new TimerTask() {
@@ -35,12 +39,10 @@ public class Snake extends Polygon implements KeyListener{
 	        public void run() {
 	        	if(!isOver) {
 	        		move(); //Call a method to move the snake
-	        		game.repaint();
+//	        		game.repaint();
 	        	} else {
-//	            	brush.setColor(Color.black);
-//	            	brush.fillRect(200,200,400,400);
-//	            	speed = 200;
-//	            	return;
+	        		resetSnake();
+	        		isOver = false;
 	        	}
 	        }
 	    }, 100, speed); //Change the second parameter to control the speed of the snake
@@ -49,17 +51,28 @@ public class Snake extends Polygon implements KeyListener{
 	 public void setGraphics(Graphics brush) {
 	        this.brush = brush;
 	    }
-	
-	public int getCurrentLength() {
-		return currentLength;
+	public void resetSnake() {
+		inShape[0] = new Point(35,35);
+		inShape[1] = new Point(55,35);
+		inShape[2] = new Point(55, 55);
+		inShape[3] = new Point(35,55);
+		currentDirection = 0;
 	}
+//	public int getCurrentLength() {
+//		return currentLength;
+//	}
 	
-	public void addLength() {
-		currentLength++;
-	}
+//	public void addLength() {
+//		currentLength++;
+//	}
 	
 	public Point[] getBody() {
-		return inShape;
+		Point[] newA = new Point[inShape.length];
+		for(int i = 0; i < inShape.length; i++) {
+			Point p1 = inShape[i];
+			newA[i] = p1;
+		}
+		return newA;
 	}
 	
 	public void paint(Graphics brush) {
@@ -83,8 +96,10 @@ public class Snake extends Polygon implements KeyListener{
 		}
 		switch (currentDirection){
 		case 0:
-			for (Point point : getBody()) {
-				if(point.getX() + stepSize > ((game.getWidth()*2) -110)) {
+			for (Point point : inShape) {
+//				System.out.print(point.getY());
+//				System.out.println(point.getX());
+				if(point.getX() + stepSize > game.getWidth()*2-60) {
 					isOver = true;
 					break;
 				}
@@ -93,8 +108,8 @@ public class Snake extends Polygon implements KeyListener{
 			break;
 		case 1:
 
-			for (Point point : getBody()) {
-				if((point.getY()+stepSize) > game.getHeight()*2-150) {
+			for (Point point : inShape) {
+				if((point.getY()+stepSize) > game.getHeight()*2-100) {
 					isOver = true;
 					break;
 				}
@@ -103,8 +118,8 @@ public class Snake extends Polygon implements KeyListener{
 		    }
 			break;
 		case 2:
-			for (Point point : getBody()) {
-				if((point.getX() - stepSize) < -10) {
+			for (Point point : inShape) {
+				if((point.getX() - stepSize) < 20) {
 					isOver = true;
 					break;
 				}
@@ -112,8 +127,8 @@ public class Snake extends Polygon implements KeyListener{
 		    }
 			break;
 		case 3:
-			for (Point point : getBody()) {
-				if((point.getY()-stepSize) < -5) {
+			for (Point point : inShape) {
+				if((point.getY()-stepSize) < 20) {
 					isOver = true;
 					break;
 				}
@@ -123,7 +138,7 @@ public class Snake extends Polygon implements KeyListener{
 		}
 		
 	    paint(brush);
-	    game.repaint();
+//	    game.repaint();
 	}
 	
 
@@ -171,11 +186,14 @@ public class Snake extends Polygon implements KeyListener{
 		brush.setColor(Color.red);
 		paint(brush);
 	}
-	public boolean collidesWithBorder(Point p) {
-		if(game.rightBorder.collides(p) || game.leftBorder.collides(p) 
-				|| game.upperBorder.collides(p) || game.lowerBorder.collides(p)) {
-			return true;
-		}
-		return false;
+//	public boolean collidesWithBorder(Point p) {
+//		if(game.rightBorder.collides(p) || game.leftBorder.collides(p) 
+//				|| game.upperBorder.collides(p) || game.lowerBorder.collides(p)) {
+//			return true;
+//		}
+//		return false;
+//	}
+	public Color getColor(){
+		return color;
 	}
 }

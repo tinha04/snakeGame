@@ -2,6 +2,8 @@ package game;
 import java.awt.*;
 
 //import game.Point;
+
+//Edward Kelly and Tin Ha
 public class Border extends Polygon{
 //	private Graphics brush;
 //	private Point[] inShape;

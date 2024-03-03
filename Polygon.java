@@ -15,6 +15,7 @@ NOTE: You don't need to worry about the "magic math" details.
 
 */
 
+//Edward Kelly and Tin Ha
 class Polygon {
   private Point[] shape;   // An array of points.
   public Point position;   // The offset mentioned above.

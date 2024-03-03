@@ -7,6 +7,7 @@ DESCRIPTION: Ah, if only real-life classes were this straight-forward. We'll
              coordinates.
 */
 
+//Edward Kelly and Tin Ha
 public class Point implements Cloneable {
   public double x,y;
   public Point(double inX, double inY) { x = inX; y = inY; }

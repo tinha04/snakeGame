@@ -10,23 +10,25 @@ NOTE: This class is the metaphorical "main method" of your program,
 import java.awt.*;
 import java.util.Random;
 
-
+//Edward Kelly and Tin Ha
 public class SnakeGame extends Game{
 	static int counter = 0;
 	static int width = 800;
 	static int height = 600;
 	
 	private Snake snake;
-	Border upperBorder;
-	Border lowerBorder;
-	Border leftBorder;
-	Border rightBorder;
+	private int score = 0;
 	
-	Cubes[] listR;
-	Cubes cFromRight;
+	private Border upperBorder;
+	private Border lowerBorder;
+	private Border leftBorder;
+	private Border rightBorder;
 	
-	Cubes[] listL;
-	Cubes cFromLeft;
+	private Cubes[] listR;
+	private Cubes cFromRight;
+	
+	private Cubes[] listL;
+	private Cubes cFromLeft;
 	
   public SnakeGame() {
     super("Snake",width,height);
@@ -56,31 +58,30 @@ public class SnakeGame extends Game{
 	
 	Point[] arr1 = {new Point(0,0), new Point(20,0),
 				    new Point(20,20),new Point(0,20)};
-	Point pos1 = new Point(22,20);
+	Point pos1 = new Point(0,0);
 	
-
+	listR = new Cubes[3];
+	for(int i = 0; i < listR.length; i++) {
+		Point[] arr2 = {new Point(0,0), new Point(20,0),
+				new Point(20,20),new Point(0,20)};
+//		int y = (int) (20 + new Random().nextFloat()*510);
+		cFromRight = new Cubes(arr2,0);	
+		listR[i] = cFromRight;
+	}
+	
+	listL = new Cubes[3];
+	for(int i = 0; i < listL.length; i++) {
+		Point[] arr2 = {new Point(0,0), new Point(20,0),
+				new Point(20,20),new Point(0,20)};
+		cFromLeft = new Cubes(arr2, 2);	
+		listL[i] = cFromLeft;
+	}
 	
 	snake = new Snake(arr1, pos1, 0, getGraphics(), this);
 	this.addKeyListener(snake);
 	
 
-	listR = new Cubes[3];
-	for(int i = 0; i < 3; i++) {
-		Point[] arr2 = {new Point(0,0), new Point(20,0),
-				new Point(20,20),new Point(0,20)};
-		int y = (int) (20 + new Random().nextFloat()*510);
-		cFromRight = new Cubes(arr2, 0, y, 0);	
-		listR[i] = cFromRight;
-	}
-	
-	listL = new Cubes[3];
-	for(int i = 0; i < 3; i++) {
-		Point[] arr2 = {new Point(0,0), new Point(20,0),
-				new Point(20,20),new Point(0,20)};
-		int y = (int) (20 + new Random().nextFloat()*510);
-		cFromLeft = new Cubes(arr2, 100, y, 2);	
-		listL[i] = cFromLeft;
-	}
+
 
 	
 //	Point[] arr2 = {new Point(0,0), new Point(20,0),
@@ -94,6 +95,12 @@ public class SnakeGame extends Game{
   }
   public int getHeight() {
 	  return height;
+  }
+  public void addScore() {
+	  this.score++;
+  }
+  public void resetScore() {
+	  this.score = 0;
   }
   
 	public void paint(Graphics brush) {
@@ -120,9 +127,35 @@ public class SnakeGame extends Game{
     	}
     		
     	snake.paint(brush);
+    	for(int i = 0; i<listR.length; i++) {
+    		if(listR[i].collision(snake) == 1) {
+    			Point[] arr2 = {new Point(0,0), new Point(20,0),
+    					new Point(20,20),new Point(0,20)};
+    			listR[i] = new Cubes(arr2,0);	
+    			addScore();
+    		} else if(listR[i].collision(snake) ==2) {
+    			snake.resetSnake();
+    			resetScore();
+    		}
+    	}
+    	for(int i = 0; i<listL.length; i++) {
+    		if(listL[i].collision(snake) == 1) {
+    			Point[] arr2 = {new Point(0,0), new Point(20,0),
+    					new Point(20,20),new Point(0,20)};
+    			listL[i] = new Cubes(arr2,2);	
+    			addScore();
+    		} else if(listL[i].collision(snake) ==2) {
+    			snake.resetSnake();
+    			resetScore();
+    		}
+    	}
+    	
+    	
     	counter++;
     	brush.setColor(Color.black);
     	brush.drawString("Counter is " + counter,10,10);
+    	
+    	brush.drawString("Score is " + score, width-100, 10);
   }
 	
 	public static void main (String[] args) {
